@@ -25,11 +25,22 @@ jobs:
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
+      - name: Prepare site
+        run: |
+          mkdir -p _site
+          if [ -f "NixelOS Site/index.html" ]; then
+            cp -r "NixelOS Site/." _site/
+          else
+            cp .github/maintenance.html _site/index.html
+            cp .github/maintenance.html _site/404.html
+          fi
+
       - name: Upload site
         uses: actions/upload-pages-artifact@v3
         with:
-          path: "NixelOS Site"
+          path: "_site"
 
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        
