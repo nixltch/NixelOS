@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090a0e">
+<title>NixelOS — Maintenance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&display=swap" rel="stylesheet">
+<script>
+try {
+  var t = localStorage.getItem("nixelos-theme");
+  if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+  var l = localStorage.getItem("nixelos-lang");
+  if (l === "en" || l === "ru" || l === "uk") document.documentElement.lang = l;
+} catch (e) {}
+</script>
+<style>
+:root {
+  color-scheme: dark;
+  --bg: #090a0e;
+  --text: #f5f5f7;
+  --muted: #b9bbc7;
+  --border: rgba(255, 255, 255, .12);
+  --card: linear-gradient(145deg, rgba(26, 29, 52, .82), rgba(14, 16, 28, .88));
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f4f5fb;
+  --text: #14162a;
+  --muted: #555a73;
+  --border: rgba(20, 24, 60, .14);
+  --card: linear-gradient(145deg, rgba(255, 255, 255, .92), rgba(236, 240, 255, .9));
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body {
+  font-family: "Comfortaa", system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100dvh;
+  padding: 24px 16px;
+  overflow-x: hidden;
+  transition: background 240ms ease, color 240ms ease;
+}
+#particles {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: .75;
+}
+:root[data-theme="light"] #particles { opacity: .42; }
+
+main {
+  position: relative;
+  z-index: 1;
+  width: min(560px, 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+}
+
+.card {
+  width: 100%;
+  padding: clamp(26px, 5vw, 40px) clamp(20px, 4.5vw, 36px);
+  border-radius: 26px;
+  border: 1px solid rgba(143, 155, 255, .3);
+  background: var(--card);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  backdrop-filter: blur(16px) saturate(140%);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, .42), inset 0 1px 0 rgba(255, 255, 255, .08);
+  text-align: center;
+  animation: rise-in 620ms cubic-bezier(.2, .8, .2, 1) both;
+}
+:root[data-theme="light"] .card {
+  border-color: rgba(74, 91, 216, .24);
+  box-shadow: 0 24px 60px rgba(20, 24, 60, .14), inset 0 1px 0 rgba(255, 255, 255, .8);
+}
+
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(18px) scale(.97); }
+  to { opacity: 1; transform: none; }
+}
+
+.logo-wrap {
+  width: 76px;
+  height: 76px;
+  margin: 0 auto 18px;
+  border-radius: 20px;
+  padding: 12px;
+  background: linear-gradient(135deg, rgba(110, 130, 255, .24), rgba(164, 107, 255, .18));
+  border: 1px solid rgba(151, 166, 255, .36);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.logo-wrap img {
+  width: auto;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  transform: translateX(-1px);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 13px;
+  margin-bottom: 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #b8c4ff;
+  background: rgba(110, 130, 255, .16);
+  border: 1px solid rgba(143, 155, 255, .34);
+}
+:root[data-theme="light"] .badge {
+  color: #4152cc;
+  background: rgba(74, 91, 216, .12);
+}
+
+h1 {
+  margin: 0 0 14px;
+  font-size: clamp(22px, 4.4vw, 31px);
+  line-height: 1.25;
+  letter-spacing: -.03em;
+}
+
+.desc {
+  margin: 0 0 26px;
+  color: var(--muted);
+  font-size: clamp(13.5px, 2vw, 15px);
+  line-height: 1.72;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.actions-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 46px;
+  padding: 10px 18px;
+  border-radius: 14px;
+  border: 1px solid rgba(143, 155, 255, .36);
+  background: linear-gradient(135deg, rgba(91, 111, 255, .26), rgba(142, 78, 255, .18));
+  color: var(--text);
+  text-decoration: none;
+  font: 700 13.5px "Comfortaa", sans-serif;
+  cursor: pointer;
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
+}
+.btn:hover {
+  transform: translateY(-2px);
+  border-color: rgba(168, 180, 255, .8);
+  background: linear-gradient(135deg, rgba(91, 111, 255, .4), rgba(142, 78, 255, .3));
+  box-shadow: 0 10px 26px rgba(64, 78, 180, .28);
+}
+.btn.primary {
+  background: linear-gradient(135deg, #6678ff, #935bff);
+  border-color: transparent;
+  color: #fff;
+}
+.btn.primary:hover {
+  box-shadow: 0 12px 30px rgba(102, 120, 255, .42);
+}
+.btn svg {
+  width: 18px;
+  height: 18px;
+  flex: none;
+}
+:root[data-theme="light"] .btn:not(.primary) {
+  background: rgba(74, 91, 216, .09);
+  border-color: rgba(74, 91, 216, .28);
+}
+:root[data-theme="light"] .btn:not(.primary):hover {
+  background: rgba(74, 91, 216, .16);
+}
+
+.lang-bar {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 4px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, .06);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  animation: rise-in 620ms cubic-bezier(.2, .8, .2, 1) 120ms both;
+}
+:root[data-theme="light"] .lang-bar {
+  background: rgba(255, 255, 255, .75);
+}
+.lang-thumb {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 0;
+  width: 0;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #7888ff, #a46bff);
+  box-shadow: 0 3px 12px rgba(120, 110, 255, .42);
+  pointer-events: none;
+}
+.lang-bar.is-ready .lang-thumb {
+  transition: transform 320ms cubic-bezier(.2, .85, .25, 1), width 320ms cubic-bezier(.2, .85, .25, 1);
+}
+.lang-btn {
+  position: relative;
+  z-index: 1;
+  border: 0;
+  border-radius: 999px;
+  padding: 8px 15px;
+  background: transparent;
+  color: var(--muted);
+  font: 700 13px "Comfortaa", sans-serif;
+  cursor: pointer;
+  transition: color 200ms ease;
+}
+.lang-btn[aria-pressed="true"] { color: #fff; }
+
+@media (max-width: 460px) {
+  .actions-row { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card, .lang-bar, .lang-bar.is-ready .lang-thumb { animation: none; transition: none; }
+}
+</style>
+</head>
+<body>
+<canvas id="particles" aria-hidden="true"></canvas>
+
+<main>
+  <section class="card" aria-labelledby="m-title">
+    <div class="logo-wrap">
+      <img src="https://raw.githubusercontent.com/nixltch/NixelOS/main/NixelOS%20Site/picture-material/1791559522545.png" alt="NixelOS logo">
+    </div>
+    <span class="badge" data-i18n="badge">Maintenance</span>
+    <h1 id="m-title" data-i18n="title">NixelOS Site temporarily closed!</h1>
+    <p class="desc" data-i18n="desc">We are working with site. You can check in our Telegram → News to see, what we are doing (We don't always send this info) Please, try again later.</p>
+
+    <div class="actions">
+      <button type="button" class="btn primary" id="back-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"></path><path d="m12 19-7-7 7-7"></path></svg>
+        <span data-i18n="back">Go back to previous page</span>
+      </button>
+      <div class="actions-row">
+        <a class="btn" href="https://t.me/NixelOS/" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.7 4.4 18.5 20c-.24 1.1-.88 1.37-1.78.85l-4.92-3.63-2.37 2.28c-.26.26-.48.48-.98.48l.35-5 9.1-8.22c.4-.35-.09-.55-.62-.2L6.03 13.6l-4.8-1.5c-1.04-.32-1.06-1.04.22-1.55L20.2 3.3c.86-.32 1.61.21 1.5 1.1Z"></path></svg>
+          <span data-i18n="telegram">Telegram</span>
+        </a>
+        <a class="btn" href="https://github.com/nixltch/NixelOS/" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .9a11.1 11.1 0 0 0-3.51 21.63c.55.1.76-.24.76-.53v-2.08c-3.1.67-3.76-1.32-3.76-1.32-.5-1.29-1.23-1.63-1.23-1.63-1.01-.69.08-.68.08-.68 1.12.08 1.71 1.15 1.71 1.15 1 .1.75 2.07 3.04 1.58.1-.72.39-1.21.7-1.49-2.47-.28-5.07-1.24-5.07-5.5 0-1.22.44-2.22 1.15-3-.12-.28-.5-1.42.11-2.96 0 0 .94-.3 3.06 1.14a10.64 10.64 0 0 1 5.57 0c2.12-1.44 3.06-1.14 3.06-1.14.61 1.54.23 2.68.11 2.96.72.78 1.15 1.78 1.15 3 0 4.27-2.6 5.21-5.08 5.49.4.35.75 1.02.75 2.06V22c0 .29.2.63.76.52A11.1 11.1 0 0 0 12 .9Z"></path></svg>
+          <span data-i18n="github">GitHub</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="lang-bar" id="lang-bar" role="group" aria-label="Language">
+    <span class="lang-thumb" id="lang-thumb" aria-hidden="true"></span>
+    <button type="button" class="lang-btn" data-lang="en" aria-pressed="true">English</button>
+    <button type="button" class="lang-btn" data-lang="ru" aria-pressed="false">Русский</button>
+    <button type="button" class="lang-btn" data-lang="uk" aria-pressed="false">Українська</button>
+  </div>
+</main>
+
+<script>
+(function () {
+  var I18N = {
+    en: {
+      pageTitle: "NixelOS — Maintenance",
+      badge: "Maintenance",
+      title: "NixelOS Site temporarily closed!",
+      desc: "We are working on the site. You can check our Telegram → News to see what we are doing (we don't always send this info). Please try again later.",
+      back: "Go back to previous page",
+      telegram: "Telegram",
+      github: "GitHub"
+    },
+    ru: {
+      pageTitle: "NixelOS — Технические работы",
+      badge: "Технические работы",
+      title: "Сайт NixelOS временно закрыт!",
+      desc: "Мы работаем над сайтом. Вы можете заглянуть в наш Telegram → Новости, чтобы узнать, что мы делаем (мы не всегда отправляем эту информацию). Пожалуйста, попробуйте позже.",
+      back: "Вернуться на предыдущую страницу",
+      telegram: "Telegram",
+      github: "GitHub"
+    },
+    uk: {
+      pageTitle: "NixelOS — Технічні роботи",
+      badge: "Технічні роботи",
+      title: "Сайт NixelOS тимчасово закрито!",
+      desc: "Ми працюємо над сайтом. Ви можете заглянути в наш Telegram → Новини, щоб побачити, що ми робимо (ми не завжди надсилаємо цю інформацію). Будь ласка, спробуйте пізніше.",
+      back: "Повернутися на попередню сторінку",
+      telegram: "Telegram",
+      github: "GitHub"
+    }
+  };
+
+  var curLang = "en";
+  try { curLang = localStorage.getItem("nixelos-lang") || "en"; } catch (e) {}
+  if (!I18N[curLang]) curLang = "en";
+
+  var bar = document.getElementById("lang-bar");
+  var thumb = document.getElementById("lang-thumb");
+  var btns = Array.prototype.slice.call(document.querySelectorAll(".lang-btn"));
+
+  function moveThumb() {
+    var active = bar.querySelector('.lang-btn[aria-pressed="true"]');
+    if (!active) return;
+    thumb.style.width = active.offsetWidth + "px";
+    thumb.style.transform = "translateX(" + active.offsetLeft + "px)";
+  }
+
+  function applyLang(l) {
+    if (!I18N[l]) l = "en";
+    curLang = l;
+    document.documentElement.lang = l;
+    document.title = I18N[l].pageTitle;
+    document.querySelectorAll("[data-i18n]").forEach(function (el) {
+      var k = el.getAttribute("data-i18n");
+      if (I18N[l][k]) el.textContent = I18N[l][k];
+    });
+    btns.forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.getAttribute("data-lang") === l));
+    });
+    moveThumb();
+  }
+
+  var busy = false;
+  async function switchLang(l) {
+    if (!I18N[l] || l === curLang || busy) return;
+    try { localStorage.setItem("nixelos-lang", l); } catch (e) {}
+    btns.forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.getAttribute("data-lang") === l));
+    });
+    moveThumb();
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var items = Array.prototype.slice.call(document.querySelectorAll("[data-i18n]"));
+    if (reduce || !items.length || typeof items[0].animate !== "function") {
+      applyLang(l);
+      return;
+    }
+    busy = true;
+    var shown = { opacity: 1, transform: "translateY(0)", filter: "blur(0px)" };
+    var hidden = { opacity: 0, transform: "translateY(-8px)", filter: "blur(5px)" };
+    var outs = [];
+    try {
+      outs = items.map(function (el) {
+        return el.animate([shown, hidden], { duration: 220, easing: "ease-in", fill: "forwards" });
+      });
+      await Promise.all(outs.map(function (a) { return a.finished; }));
+      applyLang(l);
+      var ins = items.map(function (el, i) {
+        return el.animate(
+          [{ opacity: 0, transform: "translateY(10px)", filter: "blur(5px)" }, shown],
+          { duration: 460, delay: Math.min(i * 28, 340), easing: "cubic-bezier(.2,.7,.2,1)", fill: "backwards" }
+        );
+      });
+      outs.forEach(function (a) { a.cancel(); });
+      await Promise.all(ins.map(function (a) { return a.finished; }));
+    } catch (e) {
+      outs.forEach(function (a) { a.cancel(); });
+      applyLang(l);
+    } finally {
+      busy = false;
+    }
+  }
+
+  btns.forEach(function (b) {
+    b.addEventListener("click", function () { switchLang(b.getAttribute("data-lang")); });
+  });
+
+  document.getElementById("back-btn").addEventListener("click", function () {
+    if (history.length > 1) {
+      history.back();
+    } else if (document.referrer) {
+      location.href = document.referrer;
+    } else {
+      location.href = "../index.html";
+    }
+  });
+
+  applyLang(curLang);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(moveThumb);
+  window.addEventListener("resize", moveThumb, { passive: true });
+  requestAnimationFrame(function () { requestAnimationFrame(function () { bar.classList.add("is-ready"); }); });
+
+  var canvas = document.getElementById("particles");
+  if (canvas) {
+    var ctx = canvas.getContext("2d");
+    var pts = [], w = 0, h = 0, raf = 0;
+    var cols = ["79,111,255", "147,91,255", "73,177,255"];
+    function resize() {
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = window.innerWidth;
+      h = window.innerHeight;
+      canvas.width = Math.floor(w * dpr);
+      canvas.height = Math.floor(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      var n = Math.min(36, Math.max(16, Math.floor(w / 32)));
+      pts = [];
+      for (var i = 0; i < n; i++) {
+        pts.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          r: 2 + Math.random() * 4.5,
+          vy: 0.14 + Math.random() * 0.34,
+          vx: (Math.random() - 0.5) * 0.2,
+          c: cols[i % cols.length],
+          a: 0.14 + Math.random() * 0.24
+        });
+      }
+    }
+    function draw() {
+      ctx.clearRect(0, 0, w, h);
+      for (var i = 0; i < pts.length; i++) {
+        var p = pts[i];
+        p.y -= p.vy;
+        p.x += p.vx;
+        if (p.y < -12) { p.y = h + 12; p.x = Math.random() * w; }
+        if (p.x < -12) p.x = w + 12;
+        if (p.x > w + 12) p.x = -12;
+        var g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 3);
+        g.addColorStop(0, "rgba(" + p.c + "," + p.a + ")");
+        g.addColorStop(1, "rgba(" + p.c + ",0)");
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r * 3, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      raf = requestAnimationFrame(draw);
+    }
+    resize();
+    draw();
+    window.addEventListener("resize", resize, { passive: true });
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) cancelAnimationFrame(raf);
+      else draw();
+    });
+  }
+})();
+</script>
+</body>
+  </html>
