@@ -29,7 +29,7 @@ jobs:
         run: |
           mkdir -p _site
           if [ -f "NixelOS Site/index.html" ]; then
-            cp -r "NixelOS Site/." _site/
+            cp -r "NixelOS te/." _site/
           else
             cp .github/maintenance.html _site/index.html
             cp .github/maintenance.html _site/404.html
