@@ -108,8 +108,8 @@ NixelOS like Windows has editions. You can see them there:
 
 ****Latest NixelOS****
 -
-Latest NixelOS currently is v0.1 Beta Kamaz.
-![NixelOS v0.1 Banner](https://github.com/Dmutrashaa/NixelOS/blob/main/NixelOS%20Site/picture-material/banners/Untitled221_20261015101750.png)
+Latest NixelOS currently is v0.2 Beta Cyan Crystal.
+![NixelOS v0.2 Banner](https://github.com/nixltch/NixelOS/blob/main/NixelOS%20Site/picture-material/banners/Untitled264_20261124152122.jpg)
 
 # Programming Languages
 NixelOS, currently uses this languages to get more functions.
